@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace BadCodeExample.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/v1.0/[controller]")]
     public class SampleController : ControllerBase
     {
         private static readonly object _lock = new object();
@@ -54,29 +54,16 @@ namespace BadCodeExample.Controllers
             catch (Exception ex)
             {
                 _logger.LogError("An error occurred: " + ex.Message);
+                throw ex;
             }
             return Ok("File saved");
         }
 
-        [HttpGet("get-items")] 
-        public IActionResult GetItems()
-        {
-            _logger.LogInformation("Fetching items from list");
-            var items = _data.Select(x => x.ToUpper()).ToList();
-            _logger.LogInformation("Fetched " + items.Count + " items");
-            return Ok(items);
-        }
-
         [HttpDelete("clear-items")]
-        public IActionResult ClearItems()
+        public async void ClearItems()
         {
-            _logger.LogInformation("Clearing items started at: " + DateTime.Now);
-            lock (_lock)
-            {
-                _data = new List<string>();
-            }
+            _data = new List<string>();
             _logger.LogInformation("Items cleared at: " + DateTime.Now);
-            return Ok("Items cleared");
         }
     }
 }
