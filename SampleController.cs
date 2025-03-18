@@ -57,7 +57,7 @@ namespace BadCodeExample.Controllers
             return Ok("File saved");
         }
 
-        [HttpDelete("clear-items")]
+        [HttpGet("clear-items")]
         public async void ClearItems()
         {
             _data = new List<string>();
