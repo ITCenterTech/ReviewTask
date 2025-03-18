@@ -44,11 +44,9 @@ namespace BadCodeExample.Controllers
             try
             {
                 _logger.LogInformation("Saving file started");
-                using (var file = new FileStream("data.txt", FileMode.Create))
-                {
-                    byte[] content = System.Text.Encoding.UTF8.GetBytes("Sample Data");
-                    await file.WriteAsync(content, 0, content.Length);
-                }
+                var file = new FileStream("data.txt", FileMode.Create);
+                byte[] content = System.Text.Encoding.UTF8.GetBytes("Sample Data");
+                await file.WriteAsync(content, 0, content.Length);
                 _logger.LogInformation("File saved successfully at " + DateTime.Now);
             }
             catch (Exception ex)
