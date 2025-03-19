@@ -27,14 +27,12 @@ namespace BadCodeExample.Controllers
         [HttpGet("fetch-data")]
         public async Task<IActionResult> FetchData()
         {
-            _logger.LogInformation("Fetching data started at: " + DateTime.Now);
             string result = await _httpClient.GetStringAsync("https://example.com/api/data");
             _logger.LogInformation("Data fetched: " + result);
             lock (_lock)
             {
                 _data.Add(result);
             }
-            _logger.LogInformation("Data added to list at: " + DateTime.Now);
             return Ok(result);
         }
 
@@ -47,7 +45,6 @@ namespace BadCodeExample.Controllers
                 var file = new FileStream("data.txt", FileMode.Create);
                 byte[] content = System.Text.Encoding.UTF8.GetBytes("Sample Data");
                 await file.WriteAsync(content, 0, content.Length);
-                _logger.LogInformation("File saved successfully at " + DateTime.Now);
             }
             catch (Exception ex)
             {
